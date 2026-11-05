@@ -1,0 +1,1 @@
+function oldFn() { return true; }

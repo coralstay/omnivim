@@ -1,0 +1,134 @@
+[
+  {
+    "key": "alt+enter",
+    "command": "editor.action.quickFix",
+    "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
+  },
+  {
+    "key": "cmd+alt+l",
+    "command": "editor.action.formatDocument",
+    "when": "editorHasDocumentFormattingProvider && textInputFocus && !editorReadonly && !inCompositeEditor"
+  },
+  {
+    "key": "shift+f6",
+    "command": "editor.action.rename",
+    "when": "editorHasRenameProvider && textInputFocus && !editorReadonly"
+  },
+  {
+    "key": "ctrl+alt+o",
+    "command": "editor.action.organizeImports",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "cmd+b",
+    "command": "editor.action.revealDefinition",
+    "when": "editorHasDefinitionProvider && textInputFocus && !isInEmbeddedEditor"
+  },
+  {
+    "key": "f12",
+    "command": "editor.action.revealDefinition",
+    "when": "editorHasDefinitionProvider && textInputFocus && !isInEmbeddedEditor"
+  },
+  {
+    "key": "cmd+shift+b",
+    "command": "editor.action.goToTypeDefinition",
+    "when": "editorHasTypeDefinitionProvider && textInputFocus && !isInEmbeddedEditor"
+  },
+  {
+    "key": "cmd+alt+b",
+    "command": "editor.action.goToImplementation",
+    "when": "editorHasImplementationProvider && textInputFocus && !isInEmbeddedEditor"
+  },
+  {
+    "key": "alt+f7",
+    "command": "editor.action.goToReferences",
+    "when": "editorHasReferenceProvider && textInputFocus && !isInEmbeddedEditor"
+  },
+  {
+    "key": "shift+f12",
+    "command": "editor.action.goToReferences",
+    "when": "editorHasReferenceProvider && textInputFocus && !isInEmbeddedEditor"
+  },
+  {
+    "key": "cmd+f12",
+    "command": "workbench.action.gotoSymbol"
+  },
+  {
+    "key": "cmd+e",
+    "command": "workbench.action.openRecent"
+  },
+  {
+    "key": "cmd+1",
+    "command": "workbench.view.explorer"
+  },
+  {
+    "key": "alt+f12",
+    "command": "workbench.action.terminal.toggleTerminal"
+  },
+  {
+    "key": "cmd+9",
+    "command": "workbench.view.scm"
+  },
+  {
+    "key": "cmd+shift+f",
+    "command": "workbench.action.findInFiles"
+  },
+  {
+    "key": "cmd+shift+r",
+    "command": "workbench.action.replaceInFiles"
+  },
+  {
+    "key": "cmd+shift+o",
+    "command": "workbench.action.quickOpen"
+  },
+  {
+    "key": "cmd+p",
+    "command": "workbench.action.quickOpen"
+  },
+  {
+    "key": "cmd+d",
+    "command": "editor.action.copyLinesDownAction",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "cmd+backspace",
+    "command": "editor.action.deleteLines",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "cmd+alt+/",
+    "command": "editor.action.blockComment",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "shift+meta+/",
+    "command": "editor.action.blockComment",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "f1",
+    "command": "editor.action.showHover",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "escape",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "!editorTextFocus"
+  },
+  {
+    "key": "cmd+shift+f9",
+    "command": "workbench.action.tasks.build"
+  },
+  {
+    "key": "ctrl+shift+r",
+    "command": "workbench.action.debug.run"
+  },
+  {
+    "key": "ctrl+shift+d",
+    "command": "workbench.action.debug.start"
+  },
+  {
+    "key": "cmd+alt+o",
+    "command": "workbench.action.showAllSymbols"
+  }
+]

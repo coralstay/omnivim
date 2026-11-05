@@ -1,0 +1,122 @@
+{
+  "vim.leader": "<space>",
+  "vim.useSystemClipboard": true,
+  "vim.surround": true,
+  "vim.commentary": true,
+  "vim.easymotion": true,
+  "vim.replaceWithRegister": true,
+  "vim.highlightedyank.enable": true,
+  "vim.highlightedyank.duration": 200,
+  "vim.incsearch": true,
+  "vim.hlsearch": true,
+  "vim.smartcase": true,
+  "vim.ignorecase": true,
+  "vim.useCtrlKeys": true,
+  "vim.handleKeys": {
+    "<C-a>": true,
+    "<C-x>": true,
+    "<C-r>": true,
+    "<C-v>": true,
+    "<C-o>": true,
+    "<C-i>": true,
+    "<C-w>": true,
+    "<C-d>": true,
+    "<C-u>": true,
+    "<C-h>": true,
+    "<C-j>": true,
+    "<C-k>": true,
+    "<C-l>": true,
+    "<C-f>": false,
+    "<C-p>": false
+  },
+  "vim.normalModeKeyBindingsNonRecursive": [
+    { "before": ["<Esc>"], "commands": [":nohlsearch"] },
+    { "before": ["<leader>", "h"], "commands": [":nohlsearch"] },
+    { "before": ["<leader>", "<space>"], "commands": [":nohlsearch"] },
+    { "before": ["<leader>", "w"], "commands": [":w"] },
+    { "before": ["<leader>", "q"], "commands": [":q"] },
+    { "before": ["<leader>", "x"], "commands": [":x"] },
+
+    // Window navigation (Ctrl+h/j/k/l)
+    { "before": ["<C-h>"], "commands": ["workbench.action.navigateLeft"] },
+    { "before": ["<C-j>"], "commands": ["workbench.action.navigateDown"] },
+    { "before": ["<C-k>"], "commands": ["workbench.action.navigateUp"] },
+    { "before": ["<C-l>"], "commands": ["workbench.action.navigateRight"] },
+
+    // Standard Vim documentation & hover
+    { "before": ["K"], "commands": ["editor.action.showHover"] },
+    { "before": ["g", "h"], "commands": ["editor.action.showHover"] },
+
+    // Diagnostics & Changes navigation ([d, ]d, [c, ]c)
+    { "before": ["[", "d"], "commands": ["editor.action.marker.prev"] },
+    { "before": ["]", "d"], "commands": ["editor.action.marker.next"] },
+    { "before": ["[", "c"], "commands": ["workbench.action.editor.previousChange"] },
+    { "before": ["]", "c"], "commands": ["workbench.action.editor.nextChange"] },
+
+    // Folding (za, zo, zc, zR, zM)
+    { "before": ["z", "a"], "commands": ["editor.toggleFold"] },
+    { "before": ["z", "o"], "commands": ["editor.unfold"] },
+    { "before": ["z", "c"], "commands": ["editor.fold"] },
+    { "before": ["z", "R"], "commands": ["editor.unfoldAll"] },
+    { "before": ["z", "M"], "commands": ["editor.foldAll"] },
+
+    // [e] Explorer & Editor Focus
+    { "before": ["<leader>", "e"], "commands": ["workbench.view.explorer"] },
+    { "before": ["<leader>", "e", "e"], "commands": ["workbench.files.action.showActiveFileInExplorer"] },
+    { "before": ["<leader>", "e", "a"], "commands": ["workbench.action.focusActiveEditorGroup"] },
+
+    // [t] Terminal & Tool Windows
+    { "before": ["<leader>", "t"], "commands": ["workbench.action.terminal.toggleTerminal"] },
+    { "before": ["<leader>", "o", "r"], "commands": ["workbench.action.output.toggleOutput"] },
+    { "before": ["<leader>", "o", "d"], "commands": ["workbench.view.debug"] },
+    { "before": ["<leader>", "o", "p"], "commands": ["workbench.actions.view.problems"] },
+    { "before": ["<leader>", "o", "s"], "commands": ["outline.focus"] },
+
+    // [c] Compile & Build & Code Actions & Symbols
+    { "before": ["<leader>", "c", "c"], "commands": ["workbench.action.tasks.build"] },
+    { "before": ["<leader>", "c", "b"], "commands": ["workbench.action.tasks.build"] },
+    { "before": ["<leader>", "c", "p"], "commands": ["workbench.action.tasks.build"] },
+    { "before": ["<leader>", "c", "f"], "commands": ["editor.action.formatDocument"] },
+    { "before": ["<leader>", "c", "r"], "commands": ["editor.action.rename"] },
+    { "before": ["<leader>", "c", "a"], "commands": ["editor.action.quickFix"] },
+    { "before": ["<leader>", "c", "o"], "commands": ["editor.action.organizeImports"] },
+    { "before": ["<leader>", "c", "s"], "commands": ["workbench.action.gotoSymbol"] },
+
+    // [r] Run & Test & Debug
+    { "before": ["<leader>", "r", "c"], "commands": ["workbench.action.debug.run"] },
+    { "before": ["<leader>", "d", "c"], "commands": ["workbench.action.debug.start"] },
+    { "before": ["<leader>", "r", "r"], "commands": ["workbench.action.debug.run"] },
+    { "before": ["<leader>", "r", "d"], "commands": ["workbench.action.debug.start"] },
+    { "before": ["<leader>", "r", "s"], "commands": ["workbench.action.debug.stop"] },
+
+    // [f] Files & Search
+    { "before": ["<leader>", "f", "f"], "commands": ["workbench.action.quickOpen"] },
+    { "before": ["<leader>", "f", "g"], "commands": ["workbench.action.findInFiles"] },
+    { "before": ["<leader>", "f", "r"], "commands": ["workbench.action.openRecent"] },
+    { "before": ["<leader>", "/"], "commands": ["workbench.action.quickOpen"] },
+
+    // [b] Buffer/Tabs
+    { "before": ["<leader>", "b", "d"], "commands": ["workbench.action.closeActiveEditor"] },
+    { "before": ["<leader>", "b", "n"], "commands": ["workbench.action.nextEditor"] },
+    { "before": ["<leader>", "b", "p"], "commands": ["workbench.action.previousEditor"] },
+    { "before": ["<leader>", "b", "o"], "commands": ["workbench.action.closeOtherEditors"] },
+
+    // [s] Splits
+    { "before": ["<leader>", "s", "v"], "commands": ["workbench.action.splitEditorRight"] },
+    { "before": ["<leader>", "s", "h"], "commands": ["workbench.action.splitEditorDown"] },
+    { "before": ["<leader>", "s", "c"], "commands": ["workbench.action.closeEditorsInGroup"] },
+
+    // [g] Git
+    { "before": ["<leader>", "g", "g"], "commands": ["workbench.view.scm"] },
+
+    // Code Navigation
+    { "before": ["g", "d"], "commands": ["editor.action.revealDefinition"] },
+    { "before": ["g", "D"], "commands": ["editor.action.goToDeclaration"] },
+    { "before": ["g", "r"], "commands": ["editor.action.goToReferences"] },
+    { "before": ["g", "i"], "commands": ["editor.action.goToImplementation"] }
+  ],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    { "before": ["<"], "commands": ["editor.action.outdentLines"] },
+    { "before": [">"], "commands": ["editor.action.indentLines"] }
+  ]
+}

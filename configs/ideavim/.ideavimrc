@@ -1,0 +1,153 @@
+" ==============================================================================
+" IdeaVim Configuration – JetBrains Unified Vim Powerhouse (Master Edition)
+" Target: CLion, IntelliJ IDEA, PyCharm, DataGrip, WebStorm
+" ==============================================================================
+
+" 1. 공통 Vim 코어 설정 로드
+source ~/practical-vim/vimrc_practical.vim
+
+" 2. Practical Vim 에뮬레이션 플러그인 활성화
+set surround              " tpope/vim-surround (Tip 85: cs, ds, ysiw, S)
+set commentary            " tpope/vim-commentary (주석 토글: gcc, gc{motion})
+set argtextobj            " 함수 인자 텍스트 오브젝트: cia, daa, via
+set textobj-entire        " 파일 전체 텍스트 오브젝트: vie, dae, yie
+set replaceWithRegister   " 레지스터로 덮어쓰기: gr{motion}, grr
+set exchange              " 텍스트 맞교환 (Tip 95: cx{motion}, cxx, X)
+set unimpaired            " 빠른 탐색 토글: [b, ]b, [e, ]e
+set matchit               " HTML/XML 태그 및 제어문 매칭 (%)
+set highlightedyank       " 복사 영역 시각 피드백 하이라이트
+set multiple-cursors      " 멀티 커서 (<A-n> 다음 선택, <A-p> 이전, <A-x> 건너뛰기)
+set which-key             " 리더키 입력 시 사용 가능한 단축키 팝업 안내
+set quickscope            " f, t 이동 타깃 강조
+
+" IdeaVim 스마트 통합 옵션
+set ideajoin              " J 명령 시 IDE의 스마트 줄 합치기 활용
+set idearefactormode=keep " 리팩터링 모드 유지
+
+" ------------------------------------------------------------------------------
+" 3. 키 충돌 핸들러 (Vim 단축키 우선권 보장)
+" ------------------------------------------------------------------------------
+sethandler <C-a> a:vim    " 숫자 증가 (IDE의 Select All 대신 Vim C-a)
+sethandler <C-x> a:vim    " 숫자 감소 (IDE의 Cut 대신 Vim C-x)
+sethandler <C-r> a:vim    " Redo 재실행 (IDE의 Replace 대신 Vim C-r)
+sethandler <C-v> a:vim    " Visual Block 선택 (IDE의 Paste 대신 Vim C-v)
+sethandler <C-o> a:vim    " 점프 리스트 이전 위치 (Jump list backward)
+sethandler <C-i> a:vim    " 점프 리스트 다음 위치 (Jump list forward)
+sethandler <C-w> a:vim    " 창 조작 Prefix (Window commands)
+sethandler <C-d> a:vim    " 반 페이지 스크롤 다운
+sethandler <C-u> a:vim    " 반 페이지 스크롤 업
+sethandler <C-f> a:vim    " 한 페이지 스크롤 다운
+sethandler <C-b> a:vim    " 한 페이지 스크롤 업
+sethandler <C-h> a:vim    " 좌측 창 이동
+sethandler <C-j> a:vim    " 하단 창 이동
+sethandler <C-k> a:vim    " 상단 창 이동
+sethandler <C-l> a:vim    " 우측 창 이동
+
+" ------------------------------------------------------------------------------
+" 4. 표준 Vim 단축키 & IDE 액션 심층 연동
+" ------------------------------------------------------------------------------
+" 문서 및 도움말 (K: Vim 표준 키워드 조회)
+nnoremap K <Action>(QuickJavaDoc)
+nnoremap gh <Action>(ShowErrorDescription)
+
+" 코드 네비게이션 & 심볼 추적
+nnoremap gd <Action>(GotoDeclaration)
+nnoremap gD <Action>(GotoTypeDeclaration)
+nnoremap gi <Action>(GotoImplementation)
+nnoremap gr <Action>(FindUsages)
+
+" 진단/에러 점프 (unimpaired 스타일)
+nnoremap [d <Action>(GotoPreviousError)
+nnoremap ]d <Action>(GotoNextError)
+
+" Git 변경점(Hunk) 점프
+nnoremap [c <Action>(VcsShowPrevChangeMarker)
+nnoremap ]c <Action>(VcsShowNextChangeMarker)
+
+" 함수/메서드 간 점프
+nnoremap [m <Action>(MethodUp)
+nnoremap ]m <Action>(MethodDown)
+nnoremap [M <Action>(MethodUp)
+nnoremap ]M <Action>(MethodDown)
+
+" 코드 접기 (Folding)
+nnoremap za <Action>(ExpandCollapseToggleAction)
+nnoremap zo <Action>(ExpandRegion)
+nnoremap zc <Action>(CollapseRegion)
+nnoremap zR <Action>(ExpandAllRegions)
+nnoremap zM <Action>(CollapseAllRegions)
+
+" 파일 및 외부 링크 열기 (gf, gx)
+nnoremap gf <Action>(GotoFile)
+nnoremap gx <Action>(OpenInBrowser)
+
+" ------------------------------------------------------------------------------
+" 5. 창 이동 단축키 통일 (Ctrl+h/j/k/l)
+" ------------------------------------------------------------------------------
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" ------------------------------------------------------------------------------
+" 6. JetBrains 심화 Mnemonic Leader Key 매핑 (<leader> = Space)
+" ------------------------------------------------------------------------------
+
+" [e] 프로젝트 탐색기 & 에디터 전환
+nnoremap <leader>e  <Action>(ActivateProjectToolWindow)     " 탐색기 열기 / 포커스 (Cmd+1)
+nnoremap <leader>ee <Action>(SelectInProjectView)            " 현재 파일을 탐색기 트리에서 찾기 (Opt+F1, 1)
+nnoremap <leader>ea <Action>(FocusEditor)                    " 탐색기/도구창에서 에디터로 즉시 복귀 (Esc)
+
+" [t] 터미널 & 실행창 / 디버그창
+nnoremap <leader>t  <Action>(ActivateTerminalToolWindow)    " 터미널 창 토글 (Opt+F12)
+nnoremap <leader>or <Action>(ActivateRunToolWindow)         " 실행(Run) 콘솔 창 열기 (Cmd+4)
+nnoremap <leader>od <Action>(ActivateDebugToolWindow)       " 디버그 콘솔 창 열기 (Cmd+5)
+nnoremap <leader>op <Action>(ActivateProblemsViewToolWindow)" 문제/에러(Problems) 창 열기 (Cmd+6)
+nnoremap <leader>os <Action>(ActivateStructureToolWindow)   " 구조(Structure) 창 열기 (Cmd+7)
+
+" [c] 컴파일 & 빌드
+nnoremap <leader>cc <Action>(CompileDirty)                  " [핵심] 현재 파일만 컴파일 (Cmd+Shift+F9)
+nnoremap <leader>cb <Action>(CompileDirty)                  " [핵심] 현재 파일 단일 빌드
+nnoremap <leader>cp <Action>(CompileProject)                " 프로젝트 전체 빌드 (Cmd+F9)
+
+" [r] 실행 & 테스트
+nnoremap <leader>rc <Action>(RunClass)                      " [핵심] 현재 파일만 실행 / 테스트 (Ctrl+Shift+R)
+nnoremap <leader>dc <Action>(DebugClass)                    " [핵심] 현재 파일만 디버그 (Ctrl+Shift+D)
+nnoremap <leader>rr <Action>(Run)                           " 직전 실행 설정 재실행 (Ctrl+R)
+nnoremap <leader>rd <Action>(Debug)                         " 직전 디버그 재실행 (Ctrl+D)
+nnoremap <leader>rs <Action>(Stop)                          " 실행/테스트 중단 (Cmd+F2)
+
+" [c] 코드 액션, 리팩터링, 포맷팅, 심볼
+nnoremap <leader>cf <Action>(ReformatCode)                  " 코드 포맷팅 (Cmd+Opt+L)
+nnoremap <leader>cr <Action>(RenameElement)                 " 이름 변경 리팩터링 (Shift+F6)
+nnoremap <leader>ca <Action>(ShowIntentionActions)          " 인텐션 / 퀵픽스 (Opt+Enter)
+nnoremap <leader>cd <Action>(QuickJavaDoc)                  " 퀵 닥스 조회 (F1)
+nnoremap <leader>co <Action>(OptimizeImports)               " 임포트 정리 (Ctrl+Opt+O)
+nnoremap <leader>cs <Action>(FileStructurePopup)            " 파일 심볼 구조 팝업 (Cmd+F12)
+
+" [f] 파일 및 프로젝트 전역 검색
+nnoremap <leader>ff <Action>(GotoFile)                      " 파일명 검색 (Cmd+P / Cmd+Shift+O)
+nnoremap <leader>fg <Action>(FindInPath)                    " 전체 텍스트 검색 (Cmd+Shift+F)
+nnoremap <leader>fr <Action>(RecentFiles)                   " 최근 열어본 파일 (Cmd+E)
+nnoremap <leader>fb <Action>(RecentChangedFiles)            " 최근 변경된 파일
+nnoremap <leader>/  <Action>(SearchEverywhere)             " 어디서나 전체 검색 (Shift Shift)
+
+" [b] 버퍼 및 탭 관리
+nnoremap <leader>bd <Action>(CloseContent)                  " 현재 탭 닫기 (Cmd+W)
+nnoremap <leader>bn <Action>(NextTab)                       " 다음 탭
+nnoremap <leader>bp <Action>(PreviousTab)                   " 이전 탭
+nnoremap <leader>bo <Action>(CloseAllEditorsButActive)      " 다른 모든 탭 닫기
+
+" [s] 창 분할 (Split)
+nnoremap <leader>sv <Action>(SplitVertically)               " 세로 분할
+nnoremap <leader>sh <Action>(SplitHorizontally)             " 가로 분할
+nnoremap <leader>sc <Action>(Unsplit)                       " 분할 해제
+nnoremap <leader>so <Action>(UnsplitAll)                    " 모든 분할 해제
+
+" [g] Git & 버전 관리
+nnoremap <leader>gg <Action>(ActivateVersionControlToolWindow) " Git 도구 창 (Cmd+9)
+nnoremap <leader>gb <Action>(Annotate)                      " Git Blame 주석
+nnoremap <leader>gd <Action>(Compare.SameVersion)           " 변경점 Diff 비교
+
+" 설정 리로드
+nnoremap <leader>vs :source ~/.ideavimrc<CR>

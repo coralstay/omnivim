@@ -1,0 +1,4 @@
+keep 1
+delete_me
+keep 2
+delete_me

@@ -1,0 +1,62 @@
+name: OmniVim CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  audit-and-verify:
+    name: Verify 144 Tips Curriculum & Cross-IDE Parity
+    runs-on: macos-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Neovim & Core Tools
+        run: |
+          brew install neovim
+
+      - name: Check Shell Script Syntax
+        run: |
+          bash -n scripts/*.sh *.sh bin/*
+
+      - name: Run OmniVim Master Installer
+        run: |
+          bash ./install.sh
+
+      - name: Verify Environment Parity
+        run: |
+          bash ./verify_all.sh
+
+      - name: Run Full 144-Tip Autonomous Solving Audit
+        run: |
+          python3 -c "
+          import sys
+          sys.path.insert(0, 'scripts')
+          from omnivim_ai import OmniVimAI
+
+          ai = OmniVimAI()
+          failed = []
+          for i in range(1, 145):
+              res = ai.solve_tip(i)
+              if not res.get('passed'):
+                  failed.append((i, res.get('error', ''), res.get('diff', '')))
+          
+          print(f'Autosolve Audit: {144 - len(failed)}/144 PASSED')
+          if failed:
+              for f in failed:
+                  print(f'Tip {f[0]} FAILED: {f[1]}\n{f[2]}')
+              sys.exit(1)
+          "
+
+      - name: Run Comprehensive System Audit
+        run: |
+          python3 scripts/audit_all.py

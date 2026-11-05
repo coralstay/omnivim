@@ -1,0 +1,1 @@
+makeprg = default_compiler

@@ -1,0 +1,44 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Vim temporary files
+*.swp
+*.swo
+*~
+*.un~
+.netrwhist
+
+# Editor directories
+.idea/
+.vscode/
+*.iml
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Logs
+*.log
+
+# Diff outputs
+/tmp/vim_diff.txt
+
+# 공개 저장소 제외 (TASK-16, 2026-10-31)
+# 《Practical Vim》 공식 예제 코드, 도서 팁·페이지 데이터, 공식 예제와 같은 실습 파일은 공개하지 않는다.
+/official_sources/
+/scripts/data/all_tips.py
+/PRACTICAL_VIM_MAP.md
+/practice/ch19_autocompletion/tip119_autocomplete_with_context_awareness/
+/practice/ch20_spell_checker/tip120_spell_check_your_work/
+/practice/ch20_spell_checker/tip121_use_alternate_spelling_dictionaries/
+/contents/
+/content_data/
+*.pdf
+*.epub
+.opensource/

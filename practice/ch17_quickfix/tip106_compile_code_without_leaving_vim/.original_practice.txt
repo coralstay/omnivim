@@ -1,0 +1,1 @@
+const a = syntax_err;

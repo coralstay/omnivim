@@ -1,0 +1,5 @@
+.box {
+  background: blue;
+  color: red;
+  z-index: 10;
+}
