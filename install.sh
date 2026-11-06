@@ -1,9 +1,17 @@
 #!/usr/bin/env bash
-# ==============================================================================
+# ---
+# title: install
+# description: Vim, Neovim, JetBrains, VS Code 설정을 한 번에 설치하는 macOS/Linux용 마스터 설치 스크립트
+# authors: [coralstay]
+# license: AGPL-3.0-only
+# status: draft
+# created_date: '2026-11-06'
+# updated_date: '2026-11-06'
+# ---
+# [설계 메모]
 # 🚀 Unified Development & Practical Vim Master Installer
 # One-click script to configure Vim, Neovim, JetBrains IDEs, and VS Code.
 # Works on macOS and Linux.
-# ==============================================================================
 
 set -e
 

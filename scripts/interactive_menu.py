@@ -1,4 +1,13 @@
 #!/usr/bin/env python3
+# ---
+# title: interactive_menu
+# description: fzf로 144개 팁을 검색하고 README를 미리보는 대화형 TUI 런처
+# authors: [coralstay]
+# license: AGPL-3.0-only
+# status: draft
+# created_date: '2026-11-06'
+# updated_date: '2026-11-06'
+# ---
 """
 🥋 OmniVim Interactive TUI Launcher (interactive_menu.py)
 Provides interactive fuzzy search and real-time README preview

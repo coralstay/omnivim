@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
-# ==============================================================================
+# ---
+# title: reset
+# description: 실습 파일을 편집 전 원본 상태로 되돌리는 초기화 도구
+# authors: [coralstay]
+# license: AGPL-3.0-only
+# status: draft
+# created_date: '2026-11-06'
+# updated_date: '2026-11-06'
+# ---
+# [설계 메모]
 # Practical Vim Practice Reset Tool (reset.sh)
 # Restores practice file back to original unedited state.
-# ==============================================================================
 
 set -e
 

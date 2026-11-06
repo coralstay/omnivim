@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
-# ==============================================================================
+# ---
+# title: verify_all
+# description: Vim, Neovim, JetBrains, VS Code 설정이 적용되고 유효한지 검증하는 스크립트
+# authors: [coralstay]
+# license: AGPL-3.0-only
+# status: draft
+# created_date: '2026-11-06'
+# updated_date: '2026-11-06'
+# ---
+# [설계 메모]
 # 🔍 Environment Verification Script (verify_all.sh)
 # Verifies that Vim, Neovim, JetBrains, and VS Code configs are active and valid.
-# ==============================================================================
 
 set -e
 

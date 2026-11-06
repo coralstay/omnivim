@@ -1,3 +1,12 @@
+---
+title: AI_AGENT_INTERFACE
+description: AI 에이전트가 CLI·MCP 서버·Computer Use 브리지로 omnivim을 조작하는 인터페이스 명세서
+authors: [coralstay]
+license: AGPL-3.0-only
+status: draft
+created_date: '2026-11-06'
+updated_date: '2026-11-06'
+---
 # 🤖 OmniVim AI Agent & Computer Use 인터페이스 명세서
 
 > **Quick Links**: [🏠 README (홈)](README.md) • [🚀 Practice Guide (실습 가이드)](PRACTICE_GUIDE.md) • [🏗️ Architecture (아키텍처 설계서)](PROJECT_STRUCTURE.md) • [⌨️ Hands-On Practice (단축키 실전 훈련)](JETBRAINS_VIM_KEYMAP_PRACTICE.md) • [🗺️ 144 Tips Map (144 팁 색인)](PRACTICAL_VIM_MAP.md) • [🤖 AI Agent Interface (AI 에이전트 인터페이스)](AI_AGENT_INTERFACE.md)

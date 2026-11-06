@@ -1,3 +1,12 @@
+---
+title: AGENTS
+description: omnivim 저장소에서 AI 페어 프로그래밍 에이전트가 따를 지침과 기억을 모은 문서
+authors: [coralstay]
+license: AGPL-3.0-only
+status: draft
+created_date: '2026-11-06'
+updated_date: '2026-11-06'
+---
 # OmniVim AI Pair-Programming Guidelines & Agent Memory
 
 ## 🎯 1. 프로젝트 목적 및 핵심 워크플로우

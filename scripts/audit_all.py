@@ -1,4 +1,13 @@
 #!/usr/bin/env python3
+# ---
+# title: audit_all
+# description: 설정·키바인딩·실습 팁·스크립트를 한꺼번에 검사하는 전수 감사 도구
+# authors: [coralstay]
+# license: AGPL-3.0-only
+# status: draft
+# created_date: '2026-11-06'
+# updated_date: '2026-11-06'
+# ---
 """
 Exhaustive Automated Audit Suite for Practical Vim & Cross-IDE Setup
 Validates configurations, keybindings, practice tips, and scripts.

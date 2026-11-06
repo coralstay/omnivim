@@ -1,4 +1,13 @@
 #!/usr/bin/env python3
+# ---
+# title: generate_practice
+# description: scripts/data/all_tips.py 의 선언적 메타데이터로 실습 디렉터리를 생성하는 스캐폴드 생성기
+# authors: [coralstay]
+# license: AGPL-3.0-only
+# status: draft
+# created_date: '2026-11-06'
+# updated_date: '2026-11-06'
+# ---
 """
 Practical Vim Practice Scaffold Generator
 Declarative Scaffold Engine architecture for self-contained practice modules.

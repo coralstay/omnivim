@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
-# ==============================================================================
+# ---
+# title: check
+# description: practice.* 와 expected_* 를 diff로 비교해 PASS/FAIL을 판정하는 채점 스크립트
+# authors: [coralstay]
+# license: AGPL-3.0-only
+# status: draft
+# created_date: '2026-11-06'
+# updated_date: '2026-11-06'
+# ---
+# [설계 메모]
 # Practical Vim Practice Validator (check.sh)
 # Automated diff grader comparing practice.* and expected_*
-# ==============================================================================
 
 set -e
 

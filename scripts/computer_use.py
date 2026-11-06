@@ -1,4 +1,13 @@
 #!/usr/bin/env python3
+# ---
+# title: computer_use
+# description: AppleScript로 JetBrains·VS Code를 조작하는 macOS GUI 자동화 브리지
+# authors: [coralstay]
+# license: AGPL-3.0-only
+# status: draft
+# created_date: '2026-11-06'
+# updated_date: '2026-11-06'
+# ---
 """
 OmniVim Computer Use & GUI Automation Bridge for macOS.
 Enables AI Agents (Anthropic Computer Use, vision agents) to control

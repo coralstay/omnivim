@@ -1,4 +1,13 @@
 #!/usr/bin/env python3
+# ---
+# title: mcp_server
+# description: stdio JSON-RPC 2.0 위에서 omnivim 도구를 MCP 에이전트에 노출하는 MCP 서버
+# authors: [coralstay]
+# license: AGPL-3.0-only
+# status: draft
+# created_date: '2026-11-06'
+# updated_date: '2026-11-06'
+# ---
 """
 🥋 OmniVim MCP Server (Model Context Protocol)
 Compliant with Anthropic MCP Specification (JSON-RPC 2.0 over stdio).

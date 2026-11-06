@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
-# ==============================================================================
+# ---
+# title: practice
+# description: 선택한 팁의 실습 파일을 원하는 에디터로 여는 대화형 실습 실행기
+# authors: [coralstay]
+# license: AGPL-3.0-only
+# status: draft
+# created_date: '2026-11-06'
+# updated_date: '2026-11-06'
+# ---
+# [설계 메모]
 # Practical Vim Practice Runner (practice.sh)
 # Self-contained interactive practice runner architecture.
-# ==============================================================================
 
 set -e
 

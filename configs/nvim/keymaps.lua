@@ -1,3 +1,12 @@
+-- ---
+-- title: keymaps
+-- description: JetBrains·VS Code와 맞춘 Practical Vim 통합 단축키를 Neovim에 등록하는 키맵
+-- authors: [coralstay]
+-- license: AGPL-3.0-only
+-- status: draft
+-- created_date: '2026-11-06'
+-- updated_date: '2026-11-06'
+-- ---
 -- Keymaps are automatically loaded on the VeryLazy event
 -- Practical Vim & Cross-IDE Unified Keybindings (JetBrains & VS Code Parity)
 

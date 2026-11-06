@@ -1,3 +1,12 @@
+---
+title: PRACTICE_GUIDE
+description: 팁 선택부터 편집, check 채점, reset 복원까지 실습 사이클을 설명하는 가이드
+authors: [coralstay]
+license: AGPL-3.0-only
+status: draft
+created_date: '2026-11-06'
+updated_date: '2026-11-06'
+---
 # 🚀 OmniVim 완벽 실습 가이드 (Operational Practice Guide)
 
 > **"개념을 확인하고 ➔ 터미널이나 선호하는 IDE에서 열고 ➔ 직접 손으로 키스트로크를 빚어 타이핑하고 ➔ `check` 스크립트로 0.1초 만에 자동 채점하며 ➔ 언제든 `reset`으로 원본을 복원한다."**  

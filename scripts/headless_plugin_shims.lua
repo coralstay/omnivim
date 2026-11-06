@@ -1,3 +1,12 @@
+-- ---
+-- title: headless_plugin_shims
+-- description: 헤드리스 Neovim에서 surround·repeat 등 플러그인 동작을 흉내 내는 경량 shim 모음
+-- authors: [coralstay]
+-- license: AGPL-3.0-only
+-- status: draft
+-- created_date: '2026-11-06'
+-- updated_date: '2026-11-06'
+-- ---
 -- headless_plugin_shims.lua
 -- Provides lightweight headless emulation for IdeaVim / VS Code / Neovim plugins
 -- (vim-surround, vim-repeat, vim-commentary, vim-unimpaired, vim-argtextobj, replaceWithRegister, vim-exchange)

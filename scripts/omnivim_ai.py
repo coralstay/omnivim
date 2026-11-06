@@ -1,4 +1,13 @@
 #!/usr/bin/env python3
+# ---
+# title: omnivim_ai
+# description: 헤드리스 Vim 실행, 실습 자동 채점, GUI 자동화를 묶은 AI 에이전트용 CLI·프로그램 엔진
+# authors: [coralstay]
+# license: AGPL-3.0-only
+# status: draft
+# created_date: '2026-11-06'
+# updated_date: '2026-11-06'
+# ---
 """
 🥋 OmniVim AI Agent Interface (omnivim_ai.py)
 Unified CLI and Programmatic Engine for AI Agents, MCP Servers, and Computer Use.
