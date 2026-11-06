@@ -33,7 +33,7 @@ fi
 
 if [ "$1" = "--all" ]; then
   echo -e "${YELLOW}🔄 전체 실습 파일을 최초 상태로 초기화합니다...${NC}"
-  find "$PRACTICE_DIR" -type f -name ".original_*" | while read -r backup; do
+  find "$PRACTICE_DIR" -type f -name ".original_*" | while read -r backup; do  # ---- 1
     dir=$(dirname "$backup")
     orig_name=$(basename "$backup" | sed 's/^\.original_//')
     cp "$backup" "$dir/$orig_name"
@@ -57,7 +57,7 @@ if [ -d "$INPUT_ARG" ]; then
 elif [ -d "$PROJECT_ROOT/$INPUT_ARG" ]; then
   TARGET_DIR="$(cd "$PROJECT_ROOT/$INPUT_ARG" && pwd)"
 elif [[ "$INPUT_ARG" =~ ^[0-9]+$ ]]; then
-  NUM=$((10#$INPUT_ARG))
+  NUM=$((10#$INPUT_ARG))  # ---- 2
   FORMATTED_TIP=$(printf "tip%02d" "$NUM")
   TARGET_DIR=$(find "$PRACTICE_DIR" -type d -name "${FORMATTED_TIP}_*" | head -n 1)
 else
@@ -76,7 +76,7 @@ if [ -z "$TARGET_DIR" ] || [ ! -d "$TARGET_DIR" ]; then
   exit 1
 fi
 
-BACKUP_FILE=$(find "$TARGET_DIR" -maxdepth 1 -type f -name ".original_*" | head -n 1)
+BACKUP_FILE=$(find "$TARGET_DIR" -maxdepth 1 -type f -name ".original_*" | head -n 1)  # ---- 3
 
 if [ -z "$BACKUP_FILE" ]; then
   echo -e "${RED}❌ 원본 백업 파일이 없습니다. generate_practice.py를 다시 실행하세요.${NC}"
@@ -85,5 +85,19 @@ fi
 
 TIP_NAME=$(basename "$TARGET_DIR")
 TARGET_FILE="$TARGET_DIR/$(basename "$BACKUP_FILE" | sed 's/^\.original_//')"
-cp "$BACKUP_FILE" "$TARGET_FILE"
+cp "$BACKUP_FILE" "$TARGET_FILE"  # ---- 4
 echo -e "${GREEN}✅ ${TIP_NAME} 실습 파일이 최초 원본 상태로 복구되었습니다:${NC} $TARGET_FILE"
+
+# ======== 노트 ========
+# 1 --all은 백업 전체를 복사
+#   설명: 모든 .original_* 를 찾아 접두사를 뗀 이름으로 덮어쓴다. 학습자의 진행 상황이 전부 사라지는 파괴적 동작이라 도움말에 따로 적혀 있다.
+#   관련: scripts/generate_practice.py (백업을 만드는 쪽)
+#   개념: 파괴적 동작
+# 2 10# 접두
+#   설명: check.sh와 같은 8진수 방지다.
+#   관련: scripts/check.sh
+# 3 백업이 단일 근거
+#   설명: 복원의 원본은 .original_* 파일 하나뿐이다. 없으면 generate_practice.py를 다시 돌리라고 안내한다.
+#   관련: scripts/generate_practice.py
+# 4 덮어쓰기 복원
+#   설명: 현재 실습 파일 내용은 확인 없이 원본으로 대체된다.

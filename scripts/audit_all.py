@@ -47,11 +47,8 @@ class AuditRunner:
         self.warnings += 1
 
     def strip_json_comments(self, text):
-        # Remove single-line comments // and trailing commas
-        text = re.sub(r'//.*', '', text)
-        # Remove /* */ block comments
+        text = re.sub(r'//.*', '', text)  # ---- 1
         text = re.sub(r'/\*[\s\S]*?\*/', '', text)
-        # Remove trailing commas before } or ]
         text = re.sub(r',\s*([}\]])', r'\1', text)
         return text
 
@@ -71,7 +68,7 @@ class AuditRunner:
         self.audit_ai_interfaces()
 
         print("\n\033[1;36m----------------------------------------------------------------------\033[0m")
-        if self.failures == 0:
+        if self.failures == 0:  # ---- 2
             print(f"\033[1;32m🎉 모든 검증 성공! (PASS: {self.passes}, FAIL: {self.failures}, WARN: {self.warnings})\033[0m")
             print("JetBrains 5종+, VS Code, Vim, Neovim 및 144개 실습 프로젝트가 완벽히 동작합니다.")
             print("\033[1;36m======================================================================\033[0m\n")
@@ -153,7 +150,7 @@ class AuditRunner:
         ide_dirs = []
         try:
             entries = sorted(os.listdir(jb_base))
-        except (PermissionError, OSError) as e:
+        except (PermissionError, OSError) as e:  # ---- 3
             self.log_warn("JetBrains base directory access restricted by environment permission", str(e))
             entries = []
 
@@ -163,14 +160,13 @@ class AuditRunner:
                 if re.match(r"^(CLion|IntelliJ|PyCharm|DataGrip|WebStorm|GoLand|RustRover|DataSpell)", name):
                     ide_dirs.append((name, path))
 
-        if not ide_dirs:
-            # Fallback / repository master keymap check
+        if not ide_dirs:  # ---- 4
             repo_km = os.path.join(self.project_root, "configs", "jetbrains", "Unified-Master-Keymap.xml")
             if os.path.isfile(repo_km):
                 try:
                     tree = ET.parse(repo_km)
                     root = tree.getroot()
-                    if root.tag == "keymap" and root.attrib.get("parent") == "Mac OS X 10.5+":
+                    if root.tag == "keymap" and root.attrib.get("parent") == "Mac OS X 10.5+":  # ---- 5
                         self.log_pass("저장소 configs/jetbrains/Unified-Master-Keymap.xml XML 유효")
                     else:
                         self.log_fail("저장소 Unified-Master-Keymap.xml 루트/부모 속성 비정상")
@@ -219,8 +215,7 @@ class AuditRunner:
             else:
                 self.log_fail("VS Code vim.surround 확인 실패")
         except (PermissionError, OSError) as e:
-            # Fall back to repository copy if live user directory is isolated by sandbox
-            if os.path.isfile(repo_settings):
+            if os.path.isfile(repo_settings):  # ---- 6
                 try:
                     with open(repo_settings, "r", encoding="utf-8") as f:
                         content = self.strip_json_comments(f.read())
@@ -261,8 +256,7 @@ class AuditRunner:
                 else:
                     self.log_fail(f"VS Code JetBrains 패리티 단축키 누락: {rc}")
         except (PermissionError, OSError) as e:
-            # Fall back to repository copy if live user directory is isolated by sandbox
-            if os.path.isfile(repo_keybindings):
+            if os.path.isfile(repo_keybindings):  # ---- 7
                 try:
                     with open(repo_keybindings, "r", encoding="utf-8") as f:
                         content = self.strip_json_comments(f.read())
@@ -292,7 +286,7 @@ class AuditRunner:
         print("\n\033[1m[5] Terminal Vim & Neovim Engine Check\033[0m")
         vimrc = os.path.join(self.home, ".vimrc")
         if os.path.isfile(vimrc):
-            res = subprocess.run(["vim", "-u", vimrc, "-e", "-s", "-c", "q"], capture_output=True, text=True)
+            res = subprocess.run(["vim", "-u", vimrc, "-e", "-s", "-c", "q"], capture_output=True, text=True)  # ---- 8
             if res.returncode == 0:
                 self.log_pass("CLI Vim: ~/.vimrc 무오류 로드 검증")
             else:
@@ -330,7 +324,7 @@ class AuditRunner:
                 if not (has_readme and has_practice and has_expected and has_backup):
                     incomplete.append(base)
 
-        if len(tips_found) == 144:
+        if len(tips_found) == 144:  # ---- 9
             self.log_pass(f"OmniVim 144개 실습 디렉터리 전체 존재 (144/144)")
         else:
             self.log_fail(f"실습 팁 수량 불일치: {len(tips_found)}개 (기대: 144개)")
@@ -373,8 +367,7 @@ class AuditRunner:
             else:
                 self.log_fail(f"scripts/check.sh {st} 초기 상태 검증 오작동", r_chk_fail.stdout)
 
-        # Apply solution and Check on Tip 1 (must pass)
-        with open(expected_file, "r", encoding="utf-8") as ef, open(practice_file, "w", encoding="utf-8") as pf:
+        with open(expected_file, "r", encoding="utf-8") as ef, open(practice_file, "w", encoding="utf-8") as pf:  # ---- 10
             pf.write(ef.read())
 
         r_chk_pass = subprocess.run(["bash", check_script, "1"], capture_output=True, text=True)
@@ -383,8 +376,7 @@ class AuditRunner:
         else:
             self.log_fail("scripts/check.sh 1 정답 일치 검증 실패", r_chk_pass.stderr)
 
-        # Reset to restore
-        subprocess.run(["bash", reset_script, "1"], capture_output=True, text=True)
+        subprocess.run(["bash", reset_script, "1"], capture_output=True, text=True)  # ---- 11
         self.log_pass("scripts/reset.sh 1 실습 원본 복구 확인")
 
     def audit_documentation(self):
@@ -489,10 +481,9 @@ class AuditRunner:
         subprocess.run([cli_path, "reset", "144", "--json"], capture_output=True, text=True)
         self.log_pass("omnivim-ai reset 144 원본 복구 성공")
 
-        # MCP Server Ping / Initialize test
         mcp_script = os.path.join(self.project_root, "scripts", "mcp_server.py")
         init_req = json.dumps({"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {}}) + "\n"
-        res_mcp = subprocess.run([sys.executable, mcp_script], input=init_req, capture_output=True, text=True)
+        res_mcp = subprocess.run([sys.executable, mcp_script], input=init_req, capture_output=True, text=True)  # ---- 12
         if res_mcp.returncode == 0 and "omnivim-mcp-server" in res_mcp.stdout:
             self.log_pass("OmniVim MCP Server JSON-RPC 2.0 initialize 통신 정상 확인")
         else:
@@ -501,3 +492,44 @@ class AuditRunner:
 if __name__ == "__main__":
     runner = AuditRunner()
     sys.exit(runner.run_all())
+
+# ======== 노트 ========
+# 1 JSON 주석 제거는 근사치
+#   설명: VS Code의 settings/keybindings는 주석과 끝 쉼표가 있는 JSONC라 json.loads 전에 정규식으로 깎는다. 순서대로 한 줄 주석(//), 블록 주석(/* */), } 나 ] 앞의 끝 쉼표를 지운다. 문자열 안의 // (예: URL)도 지워지는 한계가 있어, 이 감사가 쓰는 두 설정 파일에서만 안전하다.
+#   관련: configs/vscode/settings.json, configs/vscode/keybindings.json
+#   개념: JSONC
+# 2 종료 코드가 곧 결과
+#   설명: 실패가 하나라도 있으면 1이다. 실패 항목은 개발자 홈의 실제 설정(~/.vimrc, JetBrains 키맵 등)을 보므로 환경에 따라 달라진다. WARN은 결과에 영향이 없다.
+#   관련: .github/workflows/ci.yml
+#   개념: 종료 코드
+# 3 권한 제한은 경고
+#   설명: 샌드박스처럼 홈 디렉터리 접근이 막힌 환경에서는 실패가 아니라 WARN으로 낮추고 빈 목록으로 이어 간다.
+# 4 설치된 IDE가 없을 때의 대체 검증
+#   설명: JetBrains 프로필이 하나도 없으면 홈의 설치본 대신 저장소의 마스터 키맵 XML이 유효한지를 본다.
+#   관련: configs/jetbrains/Unified-Master-Keymap.xml
+# 5 키맵 부모는 Mac OS X 10.5+
+#   설명: 마스터 키맵은 JetBrains 기본 맥 키맵을 상속한다. 루트 태그가 keymap이고 parent가 이 값이어야 한다.
+#   관련: configs/jetbrains/Unified-Master-Keymap.xml
+# 6 홈 설정이 막히면 저장소 원본으로
+#   설명: 실제 사용자 디렉터리를 읽지 못하면(샌드박스) 저장소의 configs/vscode 사본으로 같은 검사를 되풀이한다. keybindings 쪽도 같은 방식이다.
+#   관련: configs/vscode/settings.json
+# 7 keybindings도 같은 대체 경로
+#   설명: settings.json과 같은 규칙으로 저장소 사본에 대체 검증한다. 필수 명령 목록(JetBrains 패리티)은 두 갈래에서 같아야 한다.
+#   관련: configs/vscode/keybindings.json
+# 8 외부 vim 로드 검증
+#   설명: vim -u <vimrc> -e -s -c q 로 설정을 읽고 바로 종료해, 구문 오류가 있으면 비정상 종료 코드로 드러나게 한다.
+#   개념: Ex 모드(-e -s)
+# 9 팁 수 144는 하드코딩
+#   설명: 실습 디렉터리 수가 정확히 144가 아니면 실패다. 팁 수가 바뀌면 이 숫자와 CI 문구, README 배지를 함께 고쳐야 한다.
+#   관련: README.md, .github/workflows/ci.yml
+# 10 실습 파일을 정답으로 덮어쓴다
+#   설명: check.sh가 일치할 때 통과 판정을 하는지 보려고 working tree의 practice.js를 expected로 바꾼다. 직후 reset으로 복원하지만, 실행을 중간에 끊으면 파일이 바뀐 채 남는다.
+#   관련: scripts/check.sh, scripts/reset.sh
+#   개념: 부작용
+# 11 원상 복구
+#   설명: 앞 단계에서 바꾼 practice 파일을 .original 백업으로 되돌려 working tree를 깨끗하게 둔다.
+#   관련: scripts/reset.sh
+# 12 MCP initialize 왕복
+#   설명: JSON-RPC initialize 한 줄을 stdin으로 넣어 서버가 이름을 담은 응답을 내는지 확인한다. 서버가 stdout을 JSON으로만 쓰는지 보는 최소한의 통신 점검이다.
+#   관련: scripts/mcp_server.py
+#   개념: JSON-RPC 2.0

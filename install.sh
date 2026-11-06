@@ -17,7 +17,7 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONFIGS_DIR="$SCRIPT_DIR/configs"
-BACKUP_DIR="$HOME/.vim_ide_backups/$(date +%Y%m%d_%H%M%S)"
+BACKUP_DIR="$HOME/.vim_ide_backups/$(date +%Y%m%d_%H%M%S)"  # ---- 1
 
 # Colors
 RED='\033[0;31m'
@@ -41,7 +41,7 @@ echo -e "${BLUE}📌 운영체제 감지:${NC} $OS_TYPE"
 mkdir -p "$BACKUP_DIR"
 echo -e "${YELLOW}📁 백업 디렉터리:${NC} $BACKUP_DIR"
 
-backup_file() {
+backup_file() {  # ---- 2
   local target="$1"
   if [ -f "$target" ] || [ -d "$target" ]; then
     echo -e "  ${YELLOW}↳ 백업 중:${NC} $target"
@@ -82,9 +82,8 @@ if [ -d "$JB_BASE" ]; then
   for p in "$JB_BASE"/*; do
     if [ -d "$p" ]; then
       base_name=$(basename "$p")
-      # Filter IDE configuration folders (CLion, IntelliJ, PyCharm, DataGrip, WebStorm, DataSpell, etc.)
       case "$base_name" in
-        CLion*|IntelliJ*|PyCharm*|DataGrip*|WebStorm*|GoLand*|RustRover*|Rider*|AndroidStudio*|DataSpell*|Aqua*|RubyMine*|PhpStorm*|Fleet*)
+        CLion*|IntelliJ*|PyCharm*|DataGrip*|WebStorm*|GoLand*|RustRover*|Rider*|AndroidStudio*|DataSpell*|Aqua*|RubyMine*|PhpStorm*|Fleet*)  # ---- 3
           JB_DIRS+=("$p")
           ;;
       esac
@@ -97,7 +96,7 @@ if [ ${#JB_DIRS[@]} -gt 0 ]; then
     ide_name=$(basename "$ide_dir")
     keymaps_dir="$ide_dir/keymaps"
     options_dir="$ide_dir/options/mac"
-    if [ "$OS_TYPE" != "Darwin" ]; then
+    if [ "$OS_TYPE" != "Darwin" ]; then  # ---- 4
       options_dir="$ide_dir/options"
     fi
 
@@ -131,7 +130,7 @@ echo -e "${GREEN}✓ VS Code settings.json 및 keybindings.json (JetBrains 패�
 if command -v code >/dev/null 2>&1; then
   if ! code --list-extensions | grep -q "vscodevim.vim"; then
     echo -e "${BLUE}  ↳ VSCodeVim 확장 설치 중...${NC}"
-    code --install-extension vscodevim.vim || true
+    code --install-extension vscodevim.vim || true  # ---- 5
   fi
 fi
 
@@ -153,7 +152,7 @@ echo -e "${GREEN}✓ ~/.config/nvim/lua/config/keymaps.lua 배포 완료${NC}"
 # 7. Set Permissions & Generate All 144 Practice Exercises
 # ------------------------------------------------------------------------------
 echo -e "\n${BOLD}[6/6] 스크립트 실행 권한 부여 및 실습 환경 스캐폴딩...${NC}"
-chmod +x "$SCRIPT_DIR"/bin/* "$SCRIPT_DIR"/scripts/*.sh "$SCRIPT_DIR"/scripts/*.py "$SCRIPT_DIR"/*.sh 2>/dev/null || true
+chmod +x "$SCRIPT_DIR"/bin/* "$SCRIPT_DIR"/scripts/*.sh "$SCRIPT_DIR"/scripts/*.py "$SCRIPT_DIR"/*.sh 2>/dev/null || true  # ---- 6
 if [ -f "$SCRIPT_DIR/scripts/generate_practice.py" ]; then
   python3 "$SCRIPT_DIR/scripts/generate_practice.py"
 fi
@@ -164,5 +163,26 @@ echo -e "${CYAN}================================================================
 
 # Run verification script
 if [ -f "$SCRIPT_DIR/verify_all.sh" ]; then
-  bash "$SCRIPT_DIR/verify_all.sh"
+  bash "$SCRIPT_DIR/verify_all.sh"  # ---- 7
 fi
+
+# ======== 노트 ========
+# 1 실행마다 새 백업 폴더
+#   설명: 시각이 붙은 디렉터리에 덮어쓰기 전 원본을 모은다. 다시 실행해도 이전 백업이 지워지지 않는다.
+# 2 덮어쓰기 전 백업
+#   설명: 대상이 파일이든 디렉터리든 있으면 BACKUP_DIR로 복사한다. 모든 배포 단계가 cp 전에 이 함수를 먼저 부른다.
+#   개념: 백업 후 덮어쓰기
+# 3 JetBrains 제품 폴더만 선별
+#   설명: JetBrains 설정 폴더에는 IDE 말고도 폴더가 섞여 있다. CLion · IntelliJ · PyCharm · DataGrip · WebStorm · DataSpell 등 제품 이름으로 시작하는 폴더만 대상이다. verify_all.sh가 같은 목록을 복제해 쓴다.
+#   관련: verify_all.sh, scripts/audit_all.py
+# 4 Linux는 options 폴더 구조가 다르다
+#   설명: macOS는 options/mac 아래에, 그 밖에서는 options 바로 아래에 keymap.xml을 둔다.
+#   관련: configs/jetbrains/keymap.xml
+# 5 확장 설치 실패는 무시
+#   설명: set -e 아래에서 네트워크나 마켓 오류로 설치가 실패해도 전체 설치가 멈추지 않도록 || true를 둔다.
+# 6 실행 권한 일괄 부여
+#   설명: bin, scripts, 루트 스크립트에 chmod +x를 건다. git 체크아웃에서 권한이 빠진 경우를 대비하며 실패해도 무시한다. audit_all.py가 이 권한을 검사한다.
+#   관련: scripts/audit_all.py
+# 7 설치 직후 자가 검증
+#   설명: 설치가 끝나면 verify_all.sh를 이어서 돌려 결과를 바로 보여 준다.
+#   관련: verify_all.sh

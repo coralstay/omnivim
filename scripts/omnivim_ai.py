@@ -33,7 +33,7 @@ except ImportError:
     TIPS = []
 
 try:
-    from computer_use import send_gui_action, ACTIONS
+    from computer_use import send_gui_action, ACTIONS  # ---- 1
 except ImportError:
     ACTIONS = {}
     def send_gui_action(action, target_app=None):
@@ -144,13 +144,13 @@ class OmniVimAI:
             return False, f"File not found: {target_path}"
 
         # Clean string for lua string literal
-        escaped_keys = keys.replace('\\', '\\\\').replace('"', '\\"').replace("'", "\\'")
+        escaped_keys = keys.replace('\\', '\\\\').replace('"', '\\"').replace("'", "\\'")  # ---- 2
 
         shims_path = (self.root / "scripts" / "headless_plugin_shims.lua").resolve()
         shim_load = f"pcall(dofile, '{shims_path}')\n" if shims_path.is_file() else ""
 
         # Neovim nvim_feedkeys Lua call
-        lua_code = (
+        lua_code = (  # ---- 3
             f"{shim_load}"
             f"local keys = vim.api.nvim_replace_termcodes('{escaped_keys}', true, false, true)\n"
             f"vim.api.nvim_feedkeys(keys, 'x', false)\n"
@@ -158,7 +158,7 @@ class OmniVimAI:
             f"vim.cmd('qall!')\n"
         )
 
-        cmd = [
+        cmd = [  # ---- 4
             "nvim",
             "--clean",
             "--headless",
@@ -168,7 +168,7 @@ class OmniVimAI:
         ]
 
         try:
-            res = subprocess.run(cmd, capture_output=True, text=True, timeout=10)
+            res = subprocess.run(cmd, capture_output=True, text=True, timeout=10)  # ---- 5
             if res.returncode == 0:
                 return True, target_path.read_text(encoding="utf-8")
             else:
@@ -194,7 +194,7 @@ class OmniVimAI:
         p_lines = p_files[0].read_text(encoding="utf-8").splitlines(keepends=True)
         e_lines = e_files[0].read_text(encoding="utf-8").splitlines(keepends=True)
 
-        diff = "".join(difflib.unified_diff(p_lines, e_lines, fromfile=p_files[0].name, tofile=e_files[0].name))
+        diff = "".join(difflib.unified_diff(p_lines, e_lines, fromfile=p_files[0].name, tofile=e_files[0].name))  # ---- 6
         passed = (diff == "")
 
         return {
@@ -218,7 +218,7 @@ class OmniVimAI:
         backup = b_files[0]
         orig_name = backup.name.replace(".original_", "")
         target = tip_dir / orig_name
-        target.write_text(backup.read_text(encoding="utf-8"), encoding="utf-8")
+        target.write_text(backup.read_text(encoding="utf-8"), encoding="utf-8")  # ---- 7
         return {"success": True, "restored": str(target)}
 
     def solve_tip(self, tip_num: int, keys: str = None) -> dict:
@@ -229,7 +229,7 @@ class OmniVimAI:
         3. Grades result and returns structured evaluation report
         """
         # 1. Reset first
-        self.reset_tip(tip_num)
+        self.reset_tip(tip_num)  # ---- 8
 
         t = self.get_tip_data(tip_num)
         if not t:
@@ -238,7 +238,7 @@ class OmniVimAI:
         if not keys:
             # Use recommended keys from dataset
             if isinstance(t["keys"], list):
-                filtered = [k for k in t["keys"] if not re.search(r'[\uac00-\ud7a3]', k)]
+                filtered = [k for k in t["keys"] if not re.search(r'[\uac00-\ud7a3]', k)]  # ---- 9
                 keys = "".join(filtered)
             else:
                 keys = str(t["keys"])
@@ -258,7 +258,7 @@ class OmniVimAI:
 
 
 # CLI Argument Parser
-def main():
+def main():  # ---- 10
     base_parser = argparse.ArgumentParser(add_help=False)
     base_parser.add_argument("--json", action="store_true", help="Output machine-readable JSON")
 
@@ -412,3 +412,38 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# ======== 노트 ========
+# 1 computer_use는 선택 의존
+#   설명: macOS 전용 GUI 브리지라 import에 실패해도 엔진 전체는 돌아야 한다. 실패하면 ACTIONS를 비우고 send_gui_action을 항상 실패를 돌려주는 대역으로 바꾼다.
+#   관련: scripts/computer_use.py
+#   개념: 선택적 의존(graceful degradation)
+# 2 Lua 문자열 이스케이프
+#   설명: 키 입력을 nvim -c 'lua ...' 안의 작은따옴표 Lua 리터럴로 넣으므로 역슬래시와 따옴표를 먼저 이스케이프한다. 빠지면 키 문자열이 Lua 문법을 깨뜨린다.
+#   개념: 이스케이프
+# 3 nvim_feedkeys로 키 실행
+#   설명: shim 로드, <Esc> 같은 표기를 termcode로 바꾸고, 'x' 모드로 끝까지 실행한 뒤 변경을 저장하고 종료한다. 사람이 에디터에서 치는 것과 같은 경로로 풀이를 검증한다.
+#   관련: scripts/headless_plugin_shims.lua
+#   개념: 헤드리스 실행
+# 4 깨끗한 헤드리스 nvim
+#   설명: --clean으로 사용자 설정과 플러그인을 배제하고 -n으로 스왑 파일을 쓰지 않는다. 채점이 개발자 환경에 좌우되지 않게 하는 불변식이다. 플러그인 동작은 shim이 대신한다.
+#   개념: 재현성
+# 5 10초 타임아웃
+#   설명: nvim이 입력 대기 등으로 멈춰도 채점기가 매달리지 않게 한다. 실패하면 stderr를 오류 메시지로 돌려준다.
+# 6 채점은 정확한 텍스트 일치
+#   설명: unified diff가 빈 문자열일 때만 통과다. 공백 한 칸 차이도 실패이고, diff 자체가 학습자에게 보여줄 피드백이 된다.
+#   관련: scripts/check.sh
+#   개념: 정확 일치 채점
+# 7 원본 백업에서 복원
+#   설명: 각 실습 폴더의 .original_* 파일이 편집 전 원본 상태의 단일 근거다. 대상 이름은 접두사를 뗀 practice.* 이다.
+#   관련: scripts/generate_practice.py
+# 8 풀이 전에 항상 reset
+#   설명: solve를 몇 번 불러도 같은 결과가 나오도록(멱등) 먼저 원본으로 되돌린다. CI의 144팁 감사가 이 성질에 기대고 있다.
+#   관련: .github/workflows/ci.yml
+#   개념: 멱등
+# 9 한글 키 항목 제외
+#   설명: 데이터셋의 keys 목록에는 설명용 한글 문장이 섞여 있다. 한글이 든 항목은 실제 키 입력이 아니므로 거른다.
+#   관련: scripts/data/all_tips.py (저장소에는 포함하지 않음)
+# 10 CLI 진입점
+#   설명: 서브커맨드 tips/tip/exec/solve/check/reset/gui/keymaps를 OmniVimAI 엔진에 연결한다. --json은 모든 서브커맨드가 공유해 에이전트가 기계 판독 출력을 얻는다. 실패하면 종료 코드 1이다.
+#   관련: scripts/mcp_server.py
