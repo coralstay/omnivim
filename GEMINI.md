@@ -1,3 +1,12 @@
+---
+title: GEMINI
+description: Gemini용 진입 안내로, 표준 지침이 있는 AGENTS.md와 PRACTICE_GUIDE.md를 가리키는 문서
+authors: [coralstay]
+license: AGPL-3.0-only
+status: draft
+created_date: '2026-11-06'
+updated_date: '2026-11-06'
+---
 # OmniVim AI Pair-Programming Guidelines & Agent Memory
 
 이 프로젝트의 표준 AI 가이드라인은 [AGENTS.md](AGENTS.md) 및 [PRACTICE_GUIDE.md](PRACTICE_GUIDE.md)에 기술되어 있습니다.

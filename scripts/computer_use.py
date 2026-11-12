@@ -1,4 +1,13 @@
 #!/usr/bin/env python3
+# ---
+# title: computer_use
+# description: AppleScript로 JetBrains·VS Code를 조작하는 macOS GUI 자동화 브리지
+# authors: [coralstay]
+# license: AGPL-3.0-only
+# status: draft
+# created_date: '2026-11-06'
+# updated_date: '2026-11-06'
+# ---
 """
 OmniVim Computer Use & GUI Automation Bridge for macOS.
 Enables AI Agents (Anthropic Computer Use, vision agents) to control
@@ -9,9 +18,7 @@ import sys
 import subprocess
 import shutil
 
-# macOS AppleScript key codes
-# Escape: 53, F1: 122, F2: 120, F6: 97, F9: 101, F12: 111, Return: 36, Space: 49
-KEY_CODES = {
+KEY_CODES = {  # ---- 1
     "escape": 53,
     "f1": 122,
     "f2": 120,
@@ -24,7 +31,7 @@ KEY_CODES = {
     "tab": 48
 }
 
-ACTIONS = {
+ACTIONS = {  # ---- 2
     # Focus / Navigation
     "focus-editor": {"type": "code", "code": 53},                                    # Esc (FocusEditor)
     "explorer": {"type": "keystroke", "key": "1", "using": "command down"},           # Cmd+1 (Project View)
@@ -62,12 +69,12 @@ def is_macos():
     return sys.platform == "darwin"
 
 def run_applescript(script: str) -> tuple[bool, str]:
-    if not is_macos():
+    if not is_macos():  # ---- 3
         return False, "Computer Use GUI bridge currently supports macOS via AppleScript."
     if not shutil.which("osascript"):
         return False, "osascript not found on system."
 
-    res = subprocess.run(["osascript", "-e", script], capture_output=True, text=True)
+    res = subprocess.run(["osascript", "-e", script], capture_output=True, text=True)  # ---- 4
     if res.returncode == 0:
         return True, res.stdout.strip()
     return False, res.stderr.strip()
@@ -81,7 +88,7 @@ def send_gui_action(action_name: str, target_app: str = None) -> tuple[bool, str
     lines = []
     if target_app:
         lines.append(f'tell application "{target_app}" to activate')
-        lines.append('delay 0.1')
+        lines.append('delay 0.1')  # ---- 5
 
     lines.append('tell application "System Events"')
 
@@ -89,7 +96,7 @@ def send_gui_action(action_name: str, target_app: str = None) -> tuple[bool, str
     if "using" in action:
         u = action["using"]
         if isinstance(u, list):
-            using_clause = f' using {{{", ".join(u)}}}'
+            using_clause = f' using {{{", ".join(u)}}}'  # ---- 6
         else:
             using_clause = f' using {u}'
 
@@ -121,7 +128,7 @@ def send_vim_keystrokes_gui(keys: str, target_app: str = None) -> tuple[bool, st
             lines.append('  key code 49') # Space
         elif ch == '"':
             lines.append('  keystroke "\\""')
-        elif ch == '\\':
+        elif ch == '\\':  # ---- 7
             lines.append('  keystroke "\\\\"')
         else:
             lines.append(f'  keystroke "{ch}"')
@@ -129,7 +136,7 @@ def send_vim_keystrokes_gui(keys: str, target_app: str = None) -> tuple[bool, st
     script = "\n".join(lines)
     return run_applescript(script)
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # ---- 8
     if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help", "--list", "help", "list"):
         print("Usage: computer_use.py <action> [target_app]")
         print("Available actions:", ", ".join(sorted(ACTIONS.keys())))
@@ -143,3 +150,27 @@ if __name__ == "__main__":
     else:
         print(f"✗ Failed: {out}", file=sys.stderr)
         sys.exit(1)
+
+# ======== 노트 ========
+# 1 AppleScript 키 코드표
+#   설명: macOS key code 번호 표다: Escape 53, F1 122, F2 120, F6 97, F9 101, F12 111, Return 36, Space 49. 문자가 아니라 가상 키 번호라 F키와 Esc는 keystroke가 아니라 key code로 보낸다.
+#   개념: key code
+# 2 통합 단축키 액션표
+#   설명: 액션 이름을 AppleScript 호출 한 가지(key code 또는 keystroke)와 수식키로 옮긴다. 줄 끝 주석은 대응하는 JetBrains 단축키 이름이다. configs의 키맵과 같은 체계를 유지해야 한다.
+#   관련: configs/jetbrains/Unified-Master-Keymap.xml, configs/vscode/keybindings.json
+# 3 macOS 가드
+#   설명: osascript가 있는 macOS에서만 동작한다. 그 밖에서는 예외 대신 (False, 이유)를 돌려줘 호출자(omnivim_ai의 대역과 같은 규약)가 처리한다.
+#   관련: scripts/omnivim_ai.py
+# 4 osascript 실행
+#   설명: AppleScript는 -e 인자로 넘기고 종료 코드 0이면 stdout, 아니면 stderr를 돌려준다. 접근성(Accessibility) 권한이 없으면 여기서 실패한다.
+#   개념: macOS 접근성 권한
+# 5 활성화 후 0.1초 대기
+#   설명: 대상 앱을 앞으로 가져온 직후 키를 보내면 이전 창이 입력을 받는다. 짧게 기다려 순서를 보장한다.
+# 6 수식키 목록 문법
+#   설명: 수식키가 여럿이면 AppleScript는 using {a, b} 형태의 리스트를 요구한다. 하나면 using a 이다.
+# 7 따옴표와 역슬래시 이스케이프
+#   설명: AppleScript 문자열 리터럴 안에 들어가는 문자라 " 와 \ 는 앞에 역슬래시를 붙여 써야 한다.
+#   개념: 이스케이프
+# 8 CLI 진입점
+#   설명: 인자 없이 부르면 사용법과 액션 목록을 보이고 종료 코드 1, help류 인자면 0이다. 실패하면 stderr와 종료 코드 1이다.
+#   관련: scripts/omnivim_ai.py (gui 서브커맨드)

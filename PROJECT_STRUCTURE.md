@@ -1,3 +1,12 @@
+---
+title: PROJECT_STRUCTURE
+description: omnivim의 디렉터리 구조와 각 구성요소의 설계 의도를 정리한 아키텍처 문서
+authors: [coralstay]
+license: AGPL-3.0-only
+status: draft
+created_date: '2026-11-06'
+updated_date: '2026-11-06'
+---
 # 🏗️ OmniVim 아키텍처 및 디렉터리 트리 상세 설계서 (Project Structure & Intent)
 
 > **이 문서는 본 프로젝트(`omnivim`)의 전체 디렉터리 구조와 각 컴포넌트의 엔지니어링 설계 의도를 정의한 표준 아키텍처 명세서입니다.**  
