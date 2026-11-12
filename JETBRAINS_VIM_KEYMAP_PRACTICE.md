@@ -13,7 +13,6 @@ updated_date: '2026-11-06'
 
 ---
 
-> 본 문서는 Google Korea (구글 코리아), Samsung Electronics (삼성전자 DX/DS부문), LG CNS, LG CTO 랩실, SK C&C (SK주식회사 C&C) 등 대규모 엔터프라이즈 환경의 실무 개발 패턴을 기반으로 설계되었습니다.  
 > JetBrains IDEs (CLion, IntelliJ IDEA, PyCharm, DataGrip, WebStorm, GoLand, RustRover, DataSpell) 및 Visual Studio Code에서 공통으로 동작하는 OmniVim 단축키 체계를 다룹니다.  
 > 마우스 의존도를 낮추고 Context Switching Overhead (컨텍스트 스위칭 오버헤드)를 최소화할 수 있도록, 10가지 핵심 Hands-On Scenarios (실무 시나리오)와 기능별 상세 레퍼런스를 체계적으로 구성했습니다.
 
