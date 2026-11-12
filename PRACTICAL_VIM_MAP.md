@@ -13,8 +13,7 @@ updated_date: '2026-11-12'
 
 ---
 
-> 본 문서는 Drew Neil 저 《Practical Vim (Second Edition)》의 전 20개 챕터 123가지 순정 실전 테크닉과 21장 모던 IDE 필수 플러그인 11선, 22장 크로스 IDE 10대 실무 상황별 집중 훈련(총 144개) 전체 및 JetBrains 전 제품군, VS Code, CLI 환경을 아우르는 OmniVim 통합 단축키 체계를 집대성한 종합 색인표입니다.  
-> Google Korea (구글 코리아), Samsung Electronics (삼성전자), LG CNS, LG CTO 랩실, SK C&C (SK주식회사 C&C) 등 대규모 소프트웨어 엔지니어링 현장의 개발자 인체공학적 조작 표준을 준수합니다.
+> 본 문서는 Drew Neil 저 《Practical Vim (Second Edition)》의 전 20개 챕터 123가지 순정 실전 테크닉과 21장 모던 IDE 필수 플러그인 11선, 22장 크로스 IDE 10대 실무 상황별 집중 훈련(총 144개) 전체 및 JetBrains 전 제품군, VS Code, CLI 환경을 아우르는 OmniVim 통합 단축키 체계를 집대성한 종합 색인표입니다.
 
 ---
 
