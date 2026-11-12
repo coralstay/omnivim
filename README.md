@@ -207,4 +207,4 @@ IDE 단축키와의 충돌을 해제하고 Vim 고유 기능이 우선 동작하
 
 본 프로젝트에서 직접 작성한 코드와 문서(스캐폴딩 생성기, 실행 도구, 색인 엔진, 설정 템플릿, 실습 스캐폴드)는 [GNU AGPL-3.0-only](./LICENSE)를 따릅니다(2026-10-31 MIT에서 변경).
 
-실습의 원문 개념과 팁 출처는 Drew Neil 저 《Practical Vim, Second Edition》(The Pragmatic Bookshelf)입니다. 도서의 공식 예제 코드(`official_sources/`), 팁 목록·페이지 데이터(`scripts/data/all_tips.py`, `PRACTICAL_VIM_MAP.md`), 그리고 공식 예제와 같은 내용의 실습 파일은 저작권자 소유이므로 이 저장소에 포함하지 않습니다. 공식 예제는 출판사 사이트에서 직접 받으세요.
+실습의 원문 개념과 팁 출처는 Drew Neil 저 《Practical Vim, Second Edition》(The Pragmatic Bookshelf)입니다. 도서의 공식 예제 코드(`official_sources/`), 팁 페이지 데이터(`scripts/data/all_tips.py`), 그리고 공식 예제와 같은 내용의 실습 파일은 저작권자 소유이므로 이 저장소에 포함하지 않습니다. `PRACTICAL_VIM_MAP.md`는 책의 팁 제목과 직접 쓴 한국어 요약만 담은 색인이며 책 본문과 페이지 번호는 담지 않습니다. 공식 예제는 출판사 사이트에서 직접 받으세요.
