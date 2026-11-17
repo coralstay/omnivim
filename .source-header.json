@@ -1,1 +1,1 @@
-{"include": ["**"], "exclude": ["**/README.md", "**/CHANGELOG.md", "backlog/**", ".opensource/**", "contents/**", "content_data/**", "official_sources/**", "practice/**", "scripts/data/**", "PRACTICAL_VIM_MAP.md"]}
+{"include": ["**"], "exclude": ["**/README.md", "**/CHANGELOG.md", "backlog/**", ".opensource/**", "contents/**", "content_data/**", "official_sources/**", "practice/**", "scripts/data/**"]}

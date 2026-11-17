@@ -13,7 +13,7 @@ updated_date: '2026-11-06'
 
 ---
 
-> 본 문서는 Google Korea (구글 코리아), Samsung Electronics (삼성전자 DX/DS부문), LG CNS, LG CTO 랩실, SK C&C (SK주식회사 C&C) 등 엔터프라이즈 소프트웨어 현장에서 도입이 가속화되고 있는 LLM 및 시각 기반 AI Agent (Claude Desktop, Cursor, OpenAI Operator, Anthropic Computer Use 등)가 OmniVim 환경을 프로그래밍 방식으로 조작하고 검증할 수 있도록 설계된 인터페이스 명세서입니다.  
+> 본 문서는 LLM 및 시각 기반 AI Agent (Claude Desktop, Cursor, OpenAI Operator, Anthropic Computer Use 등)가 OmniVim 환경을 프로그래밍 방식으로 조작하고 검증할 수 있도록 설계된 인터페이스 명세서입니다.  
 > 터미널 기반 CLI, Anthropic 공식 표준 **Model Context Protocol (모델 컨텍스트 프로토콜)** 서버, macOS **Computer Use GUI 자동화 브리지**의 3계층 연동 아키텍처를 제공합니다.
 
 ---
